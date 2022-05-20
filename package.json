@@ -1,0 +1,21 @@
+{
+  "name": "assignjw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "browserify many.js -o bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Santiago C Suarez",
+  "license": "MIT",
+  "dependencies": {
+    "@firebase/auth": "^0.19.12",
+    "firebase": "^9.7.0",
+    "node": "^17.7.2",
+    "webpack": "^5.72.0"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0"
+  }
+}
