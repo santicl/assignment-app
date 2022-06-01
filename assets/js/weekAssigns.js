@@ -1,3 +1,5 @@
+import { showFeature, labelShow, getDataAssigns } from "./components/components.js";
+
 function show() {
   let number = 0;
   let containerWeek = document.getElementById("faqlist1");
@@ -24,6 +26,7 @@ function show() {
 
 function showAssigns() {
   let container;
+  let count = 0;
   let containerWeek = document.getElementById("container-week");
   containerWeek = "";
   if (localStorage.length === 0) {
@@ -36,25 +39,17 @@ function showAssigns() {
       container = document.getElementById(key);
       container.innerHTML = '';
       for (let j = 0; j < value.length; j++) {
-        const { dateBefore, dateAfter, dataTitle, firstPerson, secondPerson, lec } = value[j];
+        count++;
+        const { dateBefore, dateAfter } = value[j];
         let dateComplete = `${dateBefore} - ${dateAfter}`;
         if (dateComplete === key) {
-  
-          container.innerHTML += `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-          <div class="box">
-            <h3 style="color: #a23530;">${dataTitle}</h3>
-            <div class="price"><p class="de">De: </p><h2 class="date"><strong>${dateBefore}</strong></h2><p class="al">Al: </p><h2 class="date"><strong>${dateAfter}</strong></h2></div>
-            <ul>
-              <li>${firstPerson}</li>
-              <li>${secondPerson}</li>
-            </ul>
-            <h3>Leccion: ${lec}</h3>
-          </div>
-        </div>`
+          const ID = dateComplete + "-" + count;
+          container.innerHTML += showFeature(getDataAssigns(value[j]), ID);
         }
       }
     }
   }
+  labelShow();
 }
 show();
 showAssigns();

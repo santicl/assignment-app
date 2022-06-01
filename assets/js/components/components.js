@@ -100,24 +100,17 @@ export function containerInnerHTML() {
     value = JSON.parse(value);
     for (let j = 0; j < value.length; j++) {
       count++;
-      const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
       const newID = key + "-" + count;
-      containerAssign.innerHTML += `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-          <div class="box">
-            <span id="${newID}" class="featured">Le Falta Poco</span>
-            <h3 style="color: #a23530;">${dataTitle}</h3>
-            <div class="price"><p class="de">De: </p><h2 class="date"><strong>${dateBefore}</strong></h2><p class="al">Al: </p><h2 class="date"><strong>${dateAfter}</strong></h2></div>
-            <ul>
-              <li>${firstPerson}</li>
-              <li>${secondPerson}</li>
-            </ul>
-            <h3>Leccion: ${lec}</h3>
-            <button id="btnEdit" class="btn-buy" onclick="editAssigns('${firstPerson}, ${secondPerson}')">Editar</button>
-          </div>
-        </div>`;
+      containerAssign.innerHTML += showFeature(getDataAssigns(value[j]), newID);
     }
   }
   labelShow();  
+}
+
+export function getDataAssigns(value) {
+  const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value;
+  const assigns = {before: dateBefore, after: dateAfter, title: dataTitle, lec, first: firstPerson, second: secondPerson};
+  return assigns;
 }
 
 export function labelShow() {
@@ -172,4 +165,20 @@ export function editAssigns(first, second) {
       }
     }
   }
+}
+
+export function showFeature(assigns, ID) {  // Componente para renderizar las asignaciones
+  return `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+  <div class="box">
+    <span id="${ID}" class="featured">Le Falta Poco</span>
+    <h3 style="color: #65c600;">${assigns.title}</h3>
+    <div class="price"><p class="de">De: </p><h2 class="date"><strong>${assigns.before}</strong></h2><p class="al">Al: </p><h2 class="date"><strong>${assigns.after}</strong></h2></div>
+    <ul>
+      <li>${assigns.first}</li>
+      <li>${assigns.second}</li>
+    </ul>
+    <h3>Leccion: ${assigns.lec}</h3>
+    <a href="#" class="btn-buy">Editar</a>
+  </div>
+</div>`;
 }

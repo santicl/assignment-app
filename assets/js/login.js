@@ -1,5 +1,3 @@
-console.debug("esta funcionando")
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
 //import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
