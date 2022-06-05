@@ -9,7 +9,7 @@ for (const ele of btn) {
 }
 
 for (const el of b) {
-  el.addEventListener("submit", updateAssigns);
+  el.addEventListener("click", updateAssigns);
 }
 
 function showData(e) {
@@ -51,7 +51,7 @@ function show() {
   }
 }
 
-function showAssigns() {
+function showAssignsWeeks() {
   let container;
   let count = 0;
   let containerWeek = document.getElementById("container-week");
@@ -79,4 +79,4 @@ function showAssigns() {
   labelShow();
 }
 show();
-showAssigns();
+showAssignsWeeks();

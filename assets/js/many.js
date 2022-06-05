@@ -13,7 +13,6 @@ function getPersonAssigns() {
             try {
                 for (let i = 0; i < data.length; i++) {
                     let { nameC, cel, howTime, time } = data[i];
-                    console.log(time);
                     let today = getToday();
                     let timeNumber = getNumberDays(time, today);
                     howTime = getDayOrWeekOrMonth(timeNumber);

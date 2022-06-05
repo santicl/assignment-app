@@ -149,7 +149,6 @@ export function editAssigns(btnID) {
       const compareId = firstPerson + "-" + secondPerson;
       
       if (compareId === btnID) {
-        console.log(dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson);
         containerAssign.innerHTML = `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
         <div class="box">
           <h3 style="color: #a23530 ;"><input id="dataTitle" type="text" class="form-control" name="text"
@@ -168,7 +167,7 @@ export function editAssigns(btnID) {
             <li><input id="secondPerson" type="text" class="form-control" name="date" placeholder="${secondPerson}"></li>
           </ul>
           <h3>Leccion: <input id="lec" type="number" class="form-control" name="date" placeholder="${lec}" required></h3>
-          <button type="submit" class="btn-update">Actualizar</button>
+          <button class="btn-update">Actualizar</button>
         </div>
       </div>`;
       }
@@ -187,7 +186,7 @@ export function updateAssigns(e) {
       const compareId = firstPerson + "-" + secondPerson;
       
       if (compareId === btnID) {
-        console.log("s guardo");
+        
         value[j] = { dateBefore: document.getElementById("dateBefore").value, dateAfter: document.getElementById("dateAfter").value, dataTitle: document.getElementById("dataTitle").value, lec: document.getElementById("lec").value, firstPerson: document.getElementById("firstPerson").value, secondPerson: document.getElementById("secondPerson").value };
       }
     }

@@ -24,15 +24,12 @@ form.addEventListener("submit", e => {
     const password = document.querySelector("#password").value;
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        console.log("entro");
         const user = userCredential.user;
         form.reset();
         window.location.href = "./home.html";
-        console.log("entro este usuario "+user);
     })
     .catch((error) => {
         const errorMessage = error.message;
-        console.log(errorMessage);
         document.getElementById("input_session").innerHTML = "Correo o contraseña incorrectos";
         form.reset();
     })
