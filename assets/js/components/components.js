@@ -42,33 +42,33 @@ export function returnWeeks(days) {
 
 export function getDayOrWeekOrMonth(days) {
   if (days < 0) {
-      days = days * -1;
-      if (days <= 7) {
-          days = "Le hace falta " + days + " Días";
-          return days;
-      }
-      if (days > 7 && days <= 31) {
-          days = returnWeeks(days);
-          days = "Le hace falta " + days;
-          return days;
-      }
-      if (days > 31 || days > 30) {
-          days = returnMonths(days);
-          days = "Le hace falta " + days;
-          return days;
-      }
+    days = days * -1;
+    if (days <= 7) {
+      days = "Le hace falta " + days + " Días";
+      return days;
+    }
+    if (days > 7 && days <= 31) {
+      days = returnWeeks(days);
+      days = "Le hace falta " + days;
+      return days;
+    }
+    if (days > 31 || days > 30) {
+      days = returnMonths(days);
+      days = "Le hace falta " + days;
+      return days;
+    }
   }
   if (days <= 7) {
-      days = days + " Dias"
-      return days;
+    days = days + " Dias"
+    return days;
   }
   if (days > 7 && days <= 31) {
-      days = returnWeeks(days);
-      return days;
+    days = returnWeeks(days);
+    return days;
   }
   if (days > 31 || days > 30) {
-      days = returnMonths(days);
-      return days;
+    days = returnMonths(days);
+    return days;
   }
 }
 
@@ -82,7 +82,7 @@ export function verifyNumber(manyDay) {
 
 export function reverseDate(str) {
   if (str === "") {
-      return "";
+    return "";
   } else {
     str = str.split("-");
     str = str[2] + "/" + str[1] + "/" + str[0];
@@ -104,42 +104,40 @@ export function containerInnerHTML() {
       containerAssign.innerHTML += showFeature(getDataAssigns(value[j]), newID);
     }
   }
-  labelShow();  
+  labelShow();
 }
 
 export function getDataAssigns(value) {
   const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value;
-  const assigns = {before: dateBefore, after: dateAfter, title: dataTitle, lec, first: firstPerson, second: secondPerson};
+  const assigns = { before: dateBefore, after: dateAfter, title: dataTitle, lec, first: firstPerson, second: secondPerson };
   return assigns;
 }
 
 export function labelShow() {
   const numberAprox = 14;
-      let count = 0;
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        let value = localStorage.getItem(key);
-        value = JSON.parse(value);
-        value.map(asigns => {
-          count++;
-          let { dateBefore } = asigns;
-          const newID = key + "-" + count;
-          console.log(newID);
-          dateBefore = reverseDate(dateBefore);
-          let manyDays = getNumberDays(dateBefore, getToday());
-          manyDays = verifyNumber(manyDays);
-          if (manyDays <= numberAprox) {
-            document.getElementById(newID).style.backgroundColor = 'red';
-            document.getElementById(newID).innerHTML = 'Le Falta Poco';
-          }else{
-            document.getElementById(newID).innerHTML = 'Aun Le Falta';
-          }
-        })
+  let count = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    value.map(asigns => {
+      count++;
+      let { dateBefore } = asigns;
+      const newID = key + "-" + count;
+      dateBefore = reverseDate(dateBefore);
+      let manyDays = getNumberDays(dateBefore, getToday());
+      manyDays = verifyNumber(manyDays);
+      if (manyDays <= numberAprox) {
+        document.getElementById(newID).style.backgroundColor = 'red';
+        document.getElementById(newID).innerHTML = 'Le Falta Poco';
+      } else {
+        document.getElementById(newID).innerHTML = 'Aun Le Falta';
       }
+    })
+  }
 }
 
-export function editAssigns(first, second) {
-  console.log(first, second);
+export function editAssigns(btnID) {
   const containerAssign = document.getElementById("container_assign");
   containerAssign.innerHTML = '';
   for (let i = 0; i < localStorage.length; i++) {
@@ -148,26 +146,56 @@ export function editAssigns(first, second) {
     value = JSON.parse(value);
     for (let j = 0; j < value.length; j++) {
       const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
-      if (first === firstPerson && second  === secondPerson) {
+      const compareId = firstPerson + "-" + secondPerson;
+      
+      if (compareId === btnID) {
+        console.log(dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson);
         containerAssign.innerHTML = `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-          <div class="box">
-            <span id="label" class="featured">Le Falta Poco</span>
-            <h3 style="color: #a23530 ;"><input id="dataTitle" type="text" class="form-control" name="text" placeholder="${dataTitle}" required></h3>
-            <div class="price"><p class="de">De: </p><h2 class="date"><strong><input id="dateBefore" type="date" class="form-control" name="date" placeholder="${dateBefore}"required></strong></h2><p class="al">Al: </p><h2 class="date"><strong><input id="dateAfter" type="date" class="form-control" name="date" placeholder="${dateAfter}"required></strong></h2></div>
-            <ul>
-              <li><input id="firstPerson" type="text" class="form-control" name="date" placeholder="${firstPerson}"required></li>
-              <li><input id="secondPerson" type="text" class="form-control" name="date" placeholder="${secondPerson}"></li>
-            </ul>
-            <h3>Leccion: <input id="lec" type="number" class="form-control" name="date" placeholder="${lec}"required></h3>
-            <a class="btn-buy" onclick="updateAssigns('${firstPerson}, ${secondPerson}')">Actualizar</a>
+        <div class="box">
+          <h3 style="color: #a23530 ;"><input id="dataTitle" type="text" class="form-control" name="text"
+              placeholder="${dataTitle}" required></h3>
+          <div class="price">
+            <p class="de">De: </p>
+            <h2 class="date"><strong><input id="dateBefore" type="date" class="form-control" name="date"
+                  placeholder="${dateBefore}" required></strong></h2>
+            <p class="al">Al: </p>
+            <h2 class="date"><strong><input id="dateAfter" type="date" class="form-control" name="date"
+                  placeholder="${dateAfter}" required></strong></h2>
           </div>
-        </div>`;
+          <ul>
+            <li><input id="firstPerson" type="text" class="form-control" name="date" placeholder="${firstPerson}" required>
+            </li>
+            <li><input id="secondPerson" type="text" class="form-control" name="date" placeholder="${secondPerson}"></li>
+          </ul>
+          <h3>Leccion: <input id="lec" type="number" class="form-control" name="date" placeholder="${lec}" required></h3>
+          <button type="submit" class="btn-update">Actualizar</button>
+        </div>
+      </div>`;
       }
     }
   }
 }
 
-export function showFeature(assigns, ID) {  // Componente para renderizar las asignaciones
+export function updateAssigns(e) {
+  e.preventDefault();
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    for (let j = 0; j < value.length; j++) {
+      let { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
+      const compareId = firstPerson + "-" + secondPerson;
+      
+      if (compareId === btnID) {
+        console.log("s guardo");
+        value[j] = { dateBefore: document.getElementById("dateBefore").value, dateAfter: document.getElementById("dateAfter").value, dataTitle: document.getElementById("dataTitle").value, lec: document.getElementById("lec").value, firstPerson: document.getElementById("firstPerson").value, secondPerson: document.getElementById("secondPerson").value };
+      }
+    }
+  }
+}
+
+export function showFeature(assigns, ID) {  //Componente para renderizar las asignaciones
+  const btnID = assigns.first + "-" + assigns.second;
   return `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
   <div class="box">
     <span id="${ID}" class="featured">Le Falta Poco</span>
@@ -178,7 +206,7 @@ export function showFeature(assigns, ID) {  // Componente para renderizar las as
       <li>${assigns.second}</li>
     </ul>
     <h3>Leccion: ${assigns.lec}</h3>
-    <a href="#" class="btn-buy">Editar</a>
+    <button id="${btnID}" class="btn-buy">Editar</button>
   </div>
 </div>`;
 }

@@ -1,4 +1,31 @@
-import { showFeature, labelShow, getDataAssigns } from "./components/components.js";
+import { showFeature, labelShow, getDataAssigns, editAssigns, updateAssigns } from "./components/components.js";
+
+let b = document.getElementsByClassName("btn-update");
+
+let btn = document.getElementsByClassName("btn-buy");
+
+for (const ele of btn) {
+  ele.addEventListener("click", showData);
+}
+
+for (const el of b) {
+  el.addEventListener("submit", updateAssigns);
+}
+
+function showData(e) {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    for (let j = 0; j < value.length; j++) {
+      const { firstPerson, secondPerson } = value[j];
+      const btnID = firstPerson + "-" + secondPerson;
+      if (btnID === e.target.id) {
+        editAssigns(btnID);
+      }
+    }
+  }
+}
 
 function show() {
   let number = 0;

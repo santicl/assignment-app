@@ -32,7 +32,6 @@ document.getElementById("btnSearch").addEventListener("click", function (e) {
       let { firstPerson, secondPerson } = value[j];
       if (firstPerson === inputSearch || secondPerson === inputSearch) {
         const ID = key + "-" + count;
-        console.log(ID);
         containerAssign.innerHTML += showFeature(getDataAssigns(value[j]), ID);
       }
     }
