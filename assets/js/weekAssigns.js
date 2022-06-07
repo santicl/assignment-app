@@ -1,15 +1,10 @@
 import { showFeature, labelShow, getDataAssigns, editAssigns, updateAssigns } from "./components/components.js";
 
-let b = document.getElementsByClassName("btn-update");
-
 let btn = document.getElementsByClassName("btn-buy");
-
+var idC;
 for (const ele of btn) {
+  console.log("entro al 1");
   ele.addEventListener("click", showData);
-}
-
-for (const el of b) {
-  el.addEventListener("click", updateAssigns);
 }
 
 function showData(e) {
@@ -21,10 +16,12 @@ function showData(e) {
       const { firstPerson, secondPerson } = value[j];
       const btnID = firstPerson + "-" + secondPerson;
       if (btnID === e.target.id) {
+        idC = btnID;
         editAssigns(btnID);
       }
     }
   }
+  document.getElementById(idC).addEventListener("click", updateAssigns);
 }
 
 function show() {

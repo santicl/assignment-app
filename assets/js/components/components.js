@@ -147,7 +147,7 @@ export function editAssigns(btnID) {
     for (let j = 0; j < value.length; j++) {
       const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
       const compareId = firstPerson + "-" + secondPerson;
-      
+
       if (compareId === btnID) {
         containerAssign.innerHTML = `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
         <div class="box">
@@ -167,7 +167,7 @@ export function editAssigns(btnID) {
             <li><input id="secondPerson" type="text" class="form-control" name="date" placeholder="${secondPerson}"></li>
           </ul>
           <h3>Leccion: <input id="lec" type="number" class="form-control" name="date" placeholder="${lec}" required></h3>
-          <button class="btn-update">Actualizar</button>
+          <button id="${compareId}" class="btn-update">Actualizar</button>
         </div>
       </div>`;
       }
@@ -176,21 +176,33 @@ export function editAssigns(btnID) {
 }
 
 export function updateAssigns(e) {
-  e.preventDefault();
+  const btnID = e.target.id;
+  console.log(btnID);
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     let value = localStorage.getItem(key);
     value = JSON.parse(value);
     for (let j = 0; j < value.length; j++) {
-      let { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
+      console.log("update");
+      let { firstPerson, secondPerson } = value[j];
       const compareId = firstPerson + "-" + secondPerson;
-      
+
       if (compareId === btnID) {
-        
-        value[j] = { dateBefore: document.getElementById("dateBefore").value, dateAfter: document.getElementById("dateAfter").value, dataTitle: document.getElementById("dataTitle").value, lec: document.getElementById("lec").value, firstPerson: document.getElementById("firstPerson").value, secondPerson: document.getElementById("secondPerson").value };
+        value[j] = {
+          dateBefore: document.getElementById("dateBefore").value,
+          dateAfter: document.getElementById("dateAfter").value,
+          dataTitle: document.getElementById("dataTitle").value,
+          lec: document.getElementById("lec").value,
+          firstPerson: document.getElementById("firstPerson").value,
+          secondPerson: document.getElementById("secondPerson").value
+        };
+        let assign = [];
+        assign.push(value[j]);
+        localStorage.setItem(key, JSON.stringify(assign));
       }
     }
   }
+  location.reload();
 }
 
 export function showFeature(assigns, ID) {  //Componente para renderizar las asignaciones
