@@ -1,30 +1,10 @@
-import { showFeature, labelShow, getDataAssigns, editAssigns, updateAssigns } from "./components/components.js";
+import { showFeature, labelShow, getDataAssigns, verifyDataEdit } from "./components/components.js";
 
-let btn = document.getElementsByClassName("btn-buy");
-var idC;
-for (const ele of btn) {
-  console.log("entro al 1");
-  ele.addEventListener("click", showData);
+for (const ele of document.getElementsByClassName("btn-buy")) {
+  ele.addEventListener("click", verifyDataEdit);
 }
 
-function showData(e) {
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    let value = localStorage.getItem(key);
-    value = JSON.parse(value);
-    for (let j = 0; j < value.length; j++) {
-      const { firstPerson, secondPerson } = value[j];
-      const btnID = firstPerson + "-" + secondPerson;
-      if (btnID === e.target.id) {
-        idC = btnID;
-        editAssigns(btnID);
-      }
-    }
-  }
-  document.getElementById(idC).addEventListener("click", updateAssigns);
-}
-
-function show() {
+function showData() {
   let number = 0;
   let containerWeek = document.getElementById("faqlist1");
   containerWeek.innerHTML = '';
@@ -75,5 +55,5 @@ function showAssignsWeeks() {
   }
   labelShow();
 }
-show();
+showData();
 showAssignsWeeks();

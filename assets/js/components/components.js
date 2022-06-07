@@ -175,6 +175,24 @@ export function editAssigns(btnID) {
   }
 }
 
+export function verifyDataEdit(e) {
+  var idGetElement = "";
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    for (let j = 0; j < value.length; j++) {
+      const { firstPerson, secondPerson } = value[j];
+      const btnID = firstPerson + "-" + secondPerson;
+      if (btnID === e.target.id) {
+        idGetElement = btnID;
+        editAssigns(btnID);
+      }
+    }
+  }
+  document.getElementById(idGetElement).addEventListener("click", updateAssigns);
+}
+
 export function updateAssigns(e) {
   const btnID = e.target.id;
   console.log(btnID);
