@@ -9,7 +9,7 @@ var dataTitle;
 document.getElementById("submitPersons2").addEventListener("click", home);
 document.getElementById("btnTitleAsign").addEventListener("click", submitBtn);
 document.getElementById("btnPersons").addEventListener("click", getInfo);
-document.getElementById("btnEdit"), addEventListener("click", editAssigns());
+document.getElementById("btnEdit"), addEventListener("click", editAssigns);
 submitBtn.onload = getData;
 document.getElementById("submitPersons2").addEventListener("click", getData);
 
@@ -38,7 +38,10 @@ document.getElementById("btnSubmit").addEventListener("click", function saveWeek
             dateAfter: dateA
         }
         const { dateBefore, dateAfter } = asign;
-        document.getElementById("container_title").innerHTML = `<h1 data-aos="fade-up" data-aos-delay="400">Semana del <div data-aos="fade-up" data-aos="fade-up" data-aos-delay="400" class="container_data"><h2 class="data">${dateBefore}</h2>  al  <h2 class="data">${dateAfter}</h2></div></h1>`;
+        document.getElementById("container_title").innerHTML = `<h1 data-aos="fade-up" data-aos-delay="400">Semana del 
+        <div data-aos="fade-up" data-aos="fade-up" data-aos-delay="400" class="container_data"><h2 class="data">${dateBefore}</h2>
+          al  <h2 class="data">${dateAfter}</h2></div></h1>`;
+
         document.getElementById("home").innerHTML = `<p data-aos="fade-up" data-aos-delay="400">Añade a esta semana las asignaciones que
         corresponden.</p>`;
         dateWeek.style.display = "none";
@@ -46,9 +49,10 @@ document.getElementById("btnSubmit").addEventListener("click", function saveWeek
     }
 });
 
-document.getElementById("btnTitles").addEventListener("click", function titles() {
+document.getElementById("btnTitles").addEventListener("click", function () {
     const { dateBefore, dateAfter } = asign;
-    document.getElementById("title").innerHTML = `Semana del <div class="container_data"><h2 class="data">${dateBefore}</h2>  al  <h2 class="data">${dateAfter}</h2></div>`;
+    document.getElementById("title").innerHTML = `Semana del <div class="container_data">
+    <h2 class="data">${dateBefore}</h2>  al  <h2 class="data">${dateAfter}</h2></div>`;
     dataInfo.style.display = "flex";
     dateWeek.style.display = "none";
     dataAsign.style.display = "none";

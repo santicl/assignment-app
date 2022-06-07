@@ -1,8 +1,4 @@
-import { showFeature, labelShow, getDataAssigns, verifyDataEdit } from "./components/components.js";
-
-for (const ele of document.getElementsByClassName("btn-buy")) {
-  ele.addEventListener("click", verifyDataEdit);
-}
+import { showFeature, labelShow, getDataAssigns, arrayElementsBtnsByClassName } from "./components/components.js";
 
 function showData() {
   let number = 0;
@@ -57,3 +53,4 @@ function showAssignsWeeks() {
 }
 showData();
 showAssignsWeeks();
+arrayElementsBtnsByClassName();
