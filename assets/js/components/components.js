@@ -191,7 +191,6 @@ export const arrayElementsByBtn = () => { // get all elemtns for listen event at
   for (const el of btns) {
     el.addEventListener('click', (e) => {
       if (e.target.textContent === 'Editar') {
-        // function
         verifyDataEdit(e);
       } else if(e.target.textContent === 'Eliminar') {
         alert("Eliminando");
