@@ -1,4 +1,10 @@
-import { containerInnerHTML, editAssigns } from "./components/components.js";
+import {
+    containerInnerHTML,
+    //editAssigns,
+    arrayElementsByBtn,
+    containerTitle,
+    containerHome
+} from "./components/components.js";
 
 var dateA;
 var dateB;
@@ -8,8 +14,8 @@ var dataTitle;
 
 document.getElementById("submitPersons2").addEventListener("click", home);
 document.getElementById("btnTitleAsign").addEventListener("click", submitBtn);
-document.getElementById("btnPersons").addEventListener("click", getInfo);
-document.getElementById("btnEdit"), addEventListener("click", editAssigns);
+document.getElementById("btnPersons").addEventListener("click", getInfoForOptions);
+//document.getElementById("btnEdit"), addEventListener("click", editAssigns);
 submitBtn.onload = getData;
 document.getElementById("submitPersons2").addEventListener("click", getData);
 
@@ -27,7 +33,7 @@ function load() {
     })
 }
 
-document.getElementById("btnSubmit").addEventListener("click", function saveWeekJW() {
+document.getElementById("btnSubmit").addEventListener("click", function () {
     if (document.getElementById("dateBefore").value === "") {
         alert("Ingrese la fecha de inicio de la semana");
     } else {
@@ -38,12 +44,10 @@ document.getElementById("btnSubmit").addEventListener("click", function saveWeek
             dateAfter: dateA
         }
         const { dateBefore, dateAfter } = asign;
-        document.getElementById("container_title").innerHTML = `<h1 data-aos="fade-up" data-aos-delay="400">Semana del 
-        <div data-aos="fade-up" data-aos="fade-up" data-aos-delay="400" class="container_data"><h2 class="data">${dateBefore}</h2>
-          al  <h2 class="data">${dateAfter}</h2></div></h1>`;
+        let data = { dateAfter, dateBefore };
+        document.getElementById("container_title").innerHTML = containerTitle(data);
 
-        document.getElementById("home").innerHTML = `<p data-aos="fade-up" data-aos-delay="400">Añade a esta semana las asignaciones que
-        corresponden.</p>`;
+        document.getElementById("home").innerHTML = containerHome();
         dateWeek.style.display = "none";
         dataAsign.style.display = "flex";
     }
@@ -72,7 +76,7 @@ function submitBtn() {
         document.getElementById("submitPersons2").style.position = "inherit";
         document.getElementById("submitPersons").style.visibility = "hidden";
         document.getElementById("span1").style.visibility = "hidden";
-        getInfo();
+        getInfoForOptions();
         changeNumberPerson();
     } else {
         document.getElementById("titlePersons").innerHTML = `Agregar un publicador`;
@@ -83,7 +87,7 @@ function submitBtn() {
         document.getElementById("submitPersons2").style.position = "inherit";
         document.getElementById("submitPersons").style.visibility = "hidden";
         document.getElementById("span1").style.visibility = "hidden";
-        getInfo();
+        getInfoForOptions();
     }
     document.getElementById("titlePersonData").innerHTML = `Semana del 
     <div class="container_data"><h2 class="data">${dateBefore}</h2>  al  
@@ -98,7 +102,7 @@ function submitBtn() {
     heroSecond.style.position = "inherit";
 }
 
-function getInfo() {
+function getInfoForOptions() {
     document.getElementById("container-btnPerson").style.display = "none";
     document.getElementById("container-btnPerson").style.position = "absolute";
     document.getElementById("optionFirst").style.display = "flex";
@@ -199,3 +203,4 @@ function home() {
 }
 
 containerInnerHTML();
+arrayElementsByBtn();
