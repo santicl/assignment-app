@@ -113,7 +113,7 @@ export function getDataAssigns(value) {
   return assigns;
 }
 
-export function labelShow() {
+export function labelShow() { // verify label
   const numberAprox = 14;
   let count = 0;
   for (let i = 0; i < localStorage.length; i++) {
@@ -135,16 +135,9 @@ export function labelShow() {
       }
     })
   }
-  arrayElementsBtnsByClassName();
 }
 
-export function arrayElementsBtnsByClassName() {
-  for (const ele of document.getElementsByClassName("btn-buy")) {
-    ele.addEventListener("click", verifyDataEdit);
-  }
-}
-
-export function updateAssigns(e) {
+export function updateAssigns(e) { // update assign
   const btnID = e.target.id;
   console.log(btnID);
   for (let i = 0; i < localStorage.length; i++) {
@@ -174,7 +167,7 @@ export function updateAssigns(e) {
   location.reload();
 }
 
-export function verifyDataEdit(e) {
+export function verifyDataEdit(e) { // verify if the data is empty
   var idGetElement = "";
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -193,16 +186,28 @@ export function verifyDataEdit(e) {
   document.getElementById(idGetElement).addEventListener("click", updateAssigns);
 }
 
-export const arrayElementsByBtn = () => {
-  let btns = document.getElementsByClassName("btn-A");
+export const arrayElementsByBtn = () => { // get all elemtns for listen event at different options
+  let btns = document.getElementsByClassName("btn-buy");
   for (const el of btns) {
     el.addEventListener('click', (e) => {
-      sendAssignSecondPerson(e.target.id);
+      if (e.target.textContent === 'Editar') {
+        // function
+        verifyDataEdit(e);
+      } else if(e.target.textContent === 'Eliminar') {
+        alert("Eliminando");
+      } else if(e.target.textContent === 'Enviar Publicador') {
+        sendAssignFirstPerson(e.target.id);
+      } else if(e.target.textContent === 'Enviar Acompañante') {
+        sendAssignSecondPerson(e.target.id);
+      } else {
+        alert("se ha producido un error");
+      }
     })
   }
 }
 
-const sendAssignSecondPerson = async (ID) => {
+const sendAssignFirstPerson = async (ID) => { // send to first person
+  console.log(ID);
   const containerAssign = document.getElementById("container_assign");
   containerAssign.innerHTML = '';
   for (let i = 0; i < localStorage.length; i++) {
@@ -211,23 +216,53 @@ const sendAssignSecondPerson = async (ID) => {
     value = JSON.parse(value);
     for (let j = 0; j < value.length; j++) {
       const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
-      if (secondPerson === ID) {
-        let cellphone = await getCellphone(secondPerson);
-        let dataAssign = {dataTitle, lec, firstPerson, secondPerson, dateAfter, dateBefore};
+      let idCompare = firstPerson + "-" + secondPerson;
+      if (idCompare === ID) {
+        let cellphone = await getCellphone(firstPerson);
+        let dataAssign = { dataTitle, lec, firstPerson, secondPerson, dateAfter, dateBefore };
         console.log(cellphone);
-        sendMsj(cellphone, dataAssign);
+        sendMsj(cellphone, dataAssign, "firstPerson");
       }
     }
   }
 }
 
-const sendMsj = (cel, data) => {
-    const URL_API_WAP = 'https://api.whatsapp.com/send?phone=57' + cel + '&text=Hola%20%F0%9F%98%84%2C%20se%C3%B1or(a)%20' + data.secondPerson + '%2C%20es%20un%20gusto%20decirle%20que%20tiene%20una%20asignaci%C3%B3n%3A%0A*Titulo%20Asignaci%C3%B3n%3A*%20' + data.dataTitle + '.%0A*Publicador(a)%3A*%20' + data.firstPerson + '.%0A*Amo(a)%20de%20casa%3A*%20' + data.secondPerson + '.%0A*Lecci%C3%B3n%3A*%20' + data.lec + '.%0A*Atte%3A*%20Juan%20Peinado';
+const sendAssignSecondPerson = async (ID) => { // send to second person
+  console.log(ID);
+  const containerAssign = document.getElementById("container_assign");
+  containerAssign.innerHTML = '';
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    for (let j = 0; j < value.length; j++) {
+      const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
+      let idCompare = firstPerson + "-" + secondPerson;
+      if (idCompare === ID) {
+        let cellphone = await getCellphone(firstPerson);
+        let dataAssign = { dataTitle, lec, firstPerson, secondPerson, dateAfter, dateBefore };
+        console.log(cellphone);
+        sendMsj(cellphone, dataAssign, "secondPerson");
+      }
+    }
+  }
+}
+
+const sendMsj = (cel, data, str) => { // if str = firstPerson or secondPerson for send msj
+    if (str === "firstPerson") {
+      URL_SEND(cel, data, data.firstPerson);
+    } else if (str === "secondPerson") {
+      URL_SEND(cel, data, data.secondPerson);
+    }      
+}
+
+const URL_SEND = (cel, data, name) => { // Send msj to WhatsApp
+  const URL_API_WAP = 'https://api.whatsapp.com/send?phone=57' + cel + '&text=Hola%20%F0%9F%98%84%2C%20se%C3%B1or(a)%20' + name + '%2C%20es%20un%20gusto%20decirle%20que%20tiene%20una%20asignaci%C3%B3n%3A%0A%20*Semana%3A*%20' + data.dateBefore + " *-* "+ data.dateAfter + '%20*Titulo%20Asignaci%C3%B3n%3A*%20' + data.dataTitle + '.%0A*Publicador(a)%3A*%20' + data.firstPerson + '.%0A*Amo(a)%20de%20casa%3A*%20' + data.secondPerson + '.%0A*Lecci%C3%B3n%3A*%20' + data.lec + '.%0A*Atte%3A*%20Juan%20Peinado';
     window.open(URL_API_WAP, '_blank');
     location.reload();
 }
 
-const getCellphone = async (secondPerson) => {
+const getCellphone = async (secondPerson) => { // get cellphone from secondPerson
   const URL = 'https://auth-assignjw-default-rtdb.firebaseio.com/pub.json';
   let cellphone;
   await fetch(URL)
@@ -248,7 +283,7 @@ const getCellphone = async (secondPerson) => {
 
 // All Templates Or Components Templates
 
-export function showFeature(assigns, ID) {  //Componente para renderizar las asignaciones
+export function showFeature(assigns, ID) {  //Component for render every assign
   const btnID = assigns.first + "-" + assigns.second;
   return `<div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
   <div class="box">
@@ -260,14 +295,19 @@ export function showFeature(assigns, ID) {  //Componente para renderizar las asi
       <li>${assigns.second}</li>
     </ul>
     <h3>Leccion: ${assigns.lec}</h3>
+    <small><strong>Accion a realizar</strong></small>
+    <select class="select" aria-placeholder="Ingresa" id="action-${btnID}">
+    <option value="Editar">Editar</option>
+    <option value="Eliminar">Eliminar</option>
+    <option value="Enviar Publicador">Enviar Publicador</option>
+    <option value="Enviar Acompañante">Enviar Acompañante</option>
+  </select>
     <button id="${btnID}" class="btn-buy">Editar</button>
-    <button id="${assigns.first}" class="btn-pub">Publicador</button>
-    <button id="${assigns.second}" class="btn-A">Acompañante</button>
   </div>
 </div>`;
 }
 
-export function editAssigns(btnID) {
+export function editAssigns(btnID) { // component for edit assigns
   const containerAssign = document.getElementById("container_assign");
   containerAssign.innerHTML = '';
   for (let i = 0; i < localStorage.length; i++) {

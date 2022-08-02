@@ -69,6 +69,10 @@ section {
   margin-top: 82px;
   color: #fff;
 }
+select {
+  margin-bottom: 20px;
+  word-wrap: normal;
+}
 @media (max-width: 992px) {
   .breadcrumbs {
     margin-top: 57px;

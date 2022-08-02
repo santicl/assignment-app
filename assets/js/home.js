@@ -33,6 +33,23 @@ function load() {
     })
 }
 
+document.getElementById("container_assign").addEventListener("change", function (e) {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        let value = localStorage.getItem(key);
+        value = JSON.parse(value);
+        for (let j = 0; j < value.length; j++) {
+          const { firstPerson, secondPerson } = value[j];
+          const ID = "action-" + firstPerson + "-" + secondPerson;
+          let btn = firstPerson + "-" + secondPerson;
+          if (ID === e.target.id) {
+            let getSelect = document.getElementById(ID).value;
+            document.getElementById(btn).textContent = getSelect;
+          }
+        }
+      }
+})
+
 document.getElementById("btnSubmit").addEventListener("click", function () {
     if (document.getElementById("dateBefore").value === "") {
         alert("Ingrese la fecha de inicio de la semana");
