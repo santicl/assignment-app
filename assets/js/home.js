@@ -9,7 +9,7 @@ import {
 var dateA;
 var dateB;
 const URL = 'https://auth-assignjw-default-rtdb.firebaseio.com/pub.json';
-var asign = { dateBefore, dateAfter };
+var asign = { dateBefore, dateAfter, first: false, second: false };
 var dataTitle;
 
 document.getElementById("submitPersons2").addEventListener("click", home);
@@ -56,10 +56,15 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
     } else {
         dateA = document.getElementById("dateAfter").value;
         dateB = document.getElementById("dateBefore").value;
+        let first = false;
+        let second = false;
         asign = {
             dateBefore: dateB,
-            dateAfter: dateA
+            dateAfter: dateA,
+            first,
+            second
         }
+        console.log(asign);
         const { dateBefore, dateAfter } = asign;
         let data = { dateAfter, dateBefore };
         document.getElementById("container_title").innerHTML = containerTitle(data);
@@ -81,6 +86,7 @@ document.getElementById("btnTitles").addEventListener("click", function () {
 
 function submitBtn() {
     const { dateBefore, dateAfter } = asign;
+    console.log(asign);
     let btn = document.getElementById("titleOption").value;
     dataTitle = btn;
     asign = { dateBefore, dateAfter, dataTitle };
@@ -157,8 +163,8 @@ function getData() {
     let firstPerson = input1;
     let secondPerson = input2;
     let lec = document.getElementById("titleOptionsPerson3").value;
-    const { dateBefore, dateAfter, dataTitle } = asign;
-    asign = { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson };
+    const { dateBefore, dateAfter, dataTitle, first, second } = asign;
+    asign = { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson, first, second };
     let dateComplete = dateBefore + " - " + dateAfter;
     if ((dataTitle === "Primera conversacion 3") || (dataTitle === "Primera conversacion 5") || (dataTitle === "Revisita" || (dataTitle === "Curso Biblico"))) {
         if (localStorage.getItem(dateComplete) === null) {
@@ -168,7 +174,6 @@ function getData() {
         } else {
             for (let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
-                console.log(key);
                 if (key === dateComplete) {
                     let asigns = JSON.parse(localStorage.getItem(key));
                     asigns.push(asign);

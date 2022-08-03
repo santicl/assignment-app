@@ -193,7 +193,7 @@ export const arrayElementsByBtn = () => { // get all elemtns for listen event at
       if (e.target.textContent === 'Editar') {
         verifyDataEdit(e);
       } else if(e.target.textContent === 'Eliminar') {
-        alert("Eliminando");
+        deleteAssign(e.target.id);
       } else if(e.target.textContent === 'Enviar Publicador') {
         sendAssignFirstPerson(e.target.id);
       } else if(e.target.textContent === 'Enviar Acompañante') {
@@ -205,8 +205,24 @@ export const arrayElementsByBtn = () => { // get all elemtns for listen event at
   }
 }
 
+const deleteAssign = (ID) => { // send to first person
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    value = JSON.parse(value);
+    for (let j = 0; j < value.length; j++) {
+      const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
+      let idCompare = firstPerson + "-" + secondPerson;
+      if (idCompare === ID) {
+        value.splice(j, 1);
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    }
+  }
+  location.reload();
+}
+
 const sendAssignFirstPerson = async (ID) => { // send to first person
-  console.log(ID);
   const containerAssign = document.getElementById("container_assign");
   containerAssign.innerHTML = '';
   for (let i = 0; i < localStorage.length; i++) {
@@ -227,7 +243,6 @@ const sendAssignFirstPerson = async (ID) => { // send to first person
 }
 
 const sendAssignSecondPerson = async (ID) => { // send to second person
-  console.log(ID);
   const containerAssign = document.getElementById("container_assign");
   containerAssign.innerHTML = '';
   for (let i = 0; i < localStorage.length; i++) {
