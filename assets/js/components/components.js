@@ -253,7 +253,7 @@ const sendAssignSecondPerson = async (ID) => { // send to second person
       const { dateBefore, dateAfter, dataTitle, lec, firstPerson, secondPerson } = value[j];
       let idCompare = firstPerson + "-" + secondPerson;
       if (idCompare === ID) {
-        let cellphone = await getCellphone(firstPerson);
+        let cellphone = await getCellphone(secondPerson);
         let dataAssign = { dataTitle, lec, firstPerson, secondPerson, dateAfter, dateBefore };
         console.log(cellphone);
         sendMsj(cellphone, dataAssign, "secondPerson");
