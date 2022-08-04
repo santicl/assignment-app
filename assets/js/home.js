@@ -190,7 +190,7 @@ function getData() {
     <h2 class="data">${dateAfter}</h2></div><div><h2>${dataTitle}</h2>
     <h2>${firstPerson}</h2><h2>${secondPerson}</h2><h2>Leccion: ${lec}</h2></div>`;
         document.getElementById("h2_change").innerHTML = `Ahora guarde la asignacion`;
-    } else if (dataTitle === "Lectura Biblica") {
+    } else if (dataTitle === "Lectura Biblica" || dataTitle === "Discurso") {
         if (localStorage.getItem(dateComplete) === null) {
             let asigns = [];
             asigns.push(asign);
